@@ -5,11 +5,11 @@
         <div id="logo" class="pl-4.5 pt-5 mb-3 w-max">
             <a href="/">
                 <div x-show="!darkMode">
-                    <img class="hidden lg:block" :class="{ '!hidden': showDrawer }" src="{% static 'images/tiktok.png' %}">
+                    <img class="hidden lg:block" :class="{ '!hidden': showDrawer }" src="{% static 'images/3k_v.2.2.2.png' %}">
                     <img class="block lg:hidden" :class="{ '!block': showDrawer }" src="{% static 'images/icon.png' %}">
                 </div>
                 <div x-show="darkMode" x-cloak >
-                    <img class="hidden lg:block" :class="{ '!hidden': showDrawer }" src="{% static 'images/tiktok_dark.png' %}">
+                    <img class="hidden lg:block" :class="{ '!hidden': showDrawer }" src="{% static 'images/3k_v.2.2.2_dark.png' %}">
                     <img class="block lg:hidden" :class="{ '!block': showDrawer }" src="{% static 'images/icon_dark.png' %}">
                 </div>
             </a>
@@ -33,7 +33,7 @@
 
             <div class="py-4 border-t border-neutral-200 dark:border-neutral-800 hidden lg:block" :class="{ '!hidden' : showDrawer }">
                 <p class="text-neutral-400 dark:text-neutral-500 text-xs whitespace-nowrap">
-                    © {% now "Y" %} TikTok Clone
+                    © {% now "Y" %} KokKokKok
                 </p>
             </div>
         </div>
@@ -64,7 +64,7 @@
                     </svg>
                 </div>
             </button>
-            <h2 class="pl-3 mb-7">Notifications</h2>
+            <h2 class="pl-3 mb-7">การแจ้งเตือน</h2>
             <div id="notification-content" class="flex-1 overflow-y-auto overscroll-contain hide-scrollbar"></div>
         </div>
         <div x-show="showMessages" class="relative px-2 py-5 h-screen flex flex-col">
@@ -75,7 +75,7 @@
                     </svg>
                 </div>
             </button>
-            <h2 class="pl-3 mb-7">Messages</h2>
+            <h2 class="pl-3 mb-7">รับส่งข้อความ</h2>
             <div id="messages-content" class="flex-1 overflow-y-auto overscroll-contain hide-scrollbar"></div>
         </div>
         <div x-show="showMore" class="relative px-2 py-5">
@@ -86,11 +86,11 @@
                     </svg>
                 </div>
             </button>
-            <h2 class="pl-3 mb-7">More</h2>
+            <h2 class="pl-3 mb-7">อื่นๆ</h2>
             <ul class="flex flex-col gap-1">
                 <li>
                     <button @click="resetAll(); showColorModes = true" class="button-rounded dark:hover:!bg-neutral-800">
-                        <span class="font-medium">Dark mode</span>
+                        <span class="font-medium">โหมดกลางคืน</span>
                         <div class="size-4 fill-neutral-400">
                             <svg viewBox="0 0 48 48">
                                 <path d="M28.74 24 15.08 10.33a1 1 0 0 1 0-1.41l1.84-1.84a1 1 0 0 1 1.41 0L34.54 23.3a1 1 0 0 1 0 1.42l-16.2 16.21a1 1 0 0 1-1.42 0l-1.84-1.84a1 1 0 0 1 0-1.41L28.74 24Z"></path>
@@ -100,14 +100,14 @@
                 </li>
                 <li>
                     <a href="{% url 'settings' %}" class="button-rounded dark:hover:!bg-neutral-800">
-                        <span class="font-medium">Settings</span>
+                        <span class="font-medium">ตั้งค่า</span>
                     </a>
                 </li>
                 <li>
                     <form method="post" action="{% url 'account_logout' %}" >
                         {% csrf_token %}
                         <button type="submit" class="button-rounded dark:hover:!bg-neutral-800">
-                            <span class="font-medium">Log out</span>
+                            <span class="font-medium">ล็อกเอ้าท์</span>
                         </button>
                     </form>
                 </li>
@@ -122,7 +122,7 @@
                         </svg>
                     </div>
                 </button>
-                <h2 class="pl-3">Dark mode</h2>
+                <h2 class="pl-3">โหมดกลางคืน</h2>
             </div>
             <ul class="flex flex-col gap-1">
                 <li>
@@ -130,7 +130,7 @@
                             hx-get="{% url 'settings' %}?darkmode=true"
                             hx-swap="none"
                             class="button-rounded dark:hover:!bg-neutral-800">
-                            <span class="font-medium">Dark mode</span>
+                            <span class="font-medium">โหมดกลางคืน</span>
                             <div x-show="darkMode" class="size-3.5">
                                 <svg viewBox="0 0 48 48">
                                     <path d="M43 6.08c.7.45 1.06.67 1.25.98.16.27.23.59.2.9-.03.36-.26.72-.7 1.43L23.06 42.14a3.5 3.5 0 0 1-5.63.39L4.89 27.62c-.54-.64-.81-.96-.9-1.32a1.5 1.5 0 0 1 .09-.92c.14-.33.46-.6 1.1-1.14l1.69-1.42c.64-.54.96-.81 1.31-.9.3-.06.63-.04.92.09.34.14.6.46 1.15 1.1l9.46 11.25 18.11-28.7c.45-.72.68-1.07.99-1.26.27-.16.59-.23.9-.2.36.03.71.25 1.43.7L43 6.08Z"></path>
@@ -143,7 +143,7 @@
                             hx-get="{% url 'settings' %}?darkmode=false"
                             hx-swap="none"
                             class="button-rounded dark:hover:!bg-neutral-800">
-                            <span class="font-medium">Light mode</span>
+                            <span class="font-medium">โหมดกลางวัน</span>
                             <div x-show="!darkMode" class="size-3.5">
                                 <svg viewBox="0 0 48 48">
                                     <path d="M43 6.08c.7.45 1.06.67 1.25.98.16.27.23.59.2.9-.03.36-.26.72-.7 1.43L23.06 42.14a3.5 3.5 0 0 1-5.63.39L4.89 27.62c-.54-.64-.81-.96-.9-1.32a1.5 1.5 0 0 1 .09-.92c.14-.33.46-.6 1.1-1.14l1.69-1.42c.64-.54.96-.81 1.31-.9.3-.06.63-.04.92.09.34.14.6.46 1.15 1.1l9.46 11.25 18.11-28.7c.45-.72.68-1.07.99-1.26.27-.16.59-.23.9-.2.36.03.71.25 1.43.7L43 6.08Z"></path>
