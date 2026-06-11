@@ -1,0 +1,20 @@
+{% extends "layouts/blank-layout.html" %}
+{% load static %}
+
+{% block meta_tags %}
+<meta property="og:title" content="Post by {{ post.author.username }}">
+<meta property="og:description" content="Check out this post!">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% if post.image %}{{ post.image.url }}{% endif %}">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Post by {{ post.author.username }}">
+<meta name="twitter:description" content="Check out this post!">
+<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% if post.image %}{{ post.image.url }}{% endif %}">
+{% endblock %}
+
+{% block content %}
+<a href="/" class="absolute z-100 left-5 top-5 rounded-full size-10 hover:bg-rose-500 flex items-center justify-center transition duration-300">
+    <img src="{% static 'images/icon_dark.png' %}">
+</a>
+{% include "a_posts/partials/_postpage.html" %}
+{% endblock %}

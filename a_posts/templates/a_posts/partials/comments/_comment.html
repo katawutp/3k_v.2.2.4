@@ -1,0 +1,56 @@
+{% load static %}
+<div id="comment_{{ comment.uuid }}">
+
+<comment-item class="flex gap-3 w-full group">
+    <div class="shrink-0 rounded-full size-12 overflow-hidden">
+        {% if comment.author %}
+        <a href="{% url 'profile' comment.author.username %}">
+            <img src="{{ comment.author.avatar }}" class="w-full h-full object-cover">
+        </a>
+        {% else %}
+            <img src="{% static 'images/avatar.svg' %}" class="w-full h-full object-cover">
+        {% endif %}
+    </div>
+    <div class="grow flex justify-between">
+        <div>
+            <div class="font-medium">{% if comment.author %}{{ comment.author.username }}{% else %}Anonymous{% endif %}</div>
+            <div class="leading-5">{{ comment.body }}</div>
+            <div class="flex gap-4 text-neutral-400 text-sm mt-1">
+                <span>{{ comment.created_at|timesince }} ago</span>
+                <button hx-get="{% url 'comment' comment.uuid %}?reply_form=true"
+                        hx-target="#reply_form_{{ comment.uuid }}"
+                        hx-swap="innerHTML">
+                        Reply
+                </button>
+            </div>
+        </div>
+        <div class="flex flex-col gap-1">
+            {% if user == comment.author %}
+            <button hx-get="{% url 'comment_delete' comment.uuid %}"
+                    hx-target="#modalbox-content"
+                    hx-swap="innerHTML"
+                    @click="modalBox = true" 
+                    class="px-2">
+                    <div class="size-5 hover:fill-neutral-400 opacity-0 group-hover:opacity-100">
+                        <svg viewBox="0 0 48 48">
+                            <path d="M5 24a4 4 0 1 1 8 0 4 4 0 0 1-8 0Zm15 0a4 4 0 1 1 8 0 4 4 0 0 1-8 0Zm15 0a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z"></path>
+                        </svg>
+                    </div>
+            </button>
+            {% else %}
+            <div class="mb-1"></div>
+            {% endif %}
+            
+            {% include 'a_posts/partials/comments/_button_like_comment.html' %}
+        </div>
+    </div>
+</comment-item>
+
+<div class="pl-15">
+    <div id="reply_form_{{ comment.uuid }}"></div>
+    <div id="replies_container_{{ comment.uuid }}">
+        {% include "a_posts/partials/comments/_button_view_replies.html" %}
+    </div>
+</div>
+
+</div>
