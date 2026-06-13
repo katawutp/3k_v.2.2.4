@@ -19,6 +19,26 @@ class Post(models.Model):
     def parent_comments(self):
         return self.comments.filter(parent_comment__isnull=True)
     
+    @property
+    def safe_image_url(self):
+        """Return image URL or placeholder if image is missing"""
+        if self.image:
+            # Check if file exists on disk
+            import os
+            from django.conf import settings
+            full_path = os.path.join(settings.MEDIA_ROOT, self.image.name)
+            if os.path.exists(full_path):
+                return self.image.url
+        return '/media/default/placeholder.jpg'
+    
+    @property
+    def has_valid_image(self):
+        """Check if image exists on disk"""
+        if not self.image:
+            return False
+        import os
+        from django.conf import settings
+        return os.path.exists(os.path.join(settings.MEDIA_ROOT, self.image.name))    
     class Meta:
         ordering = ['-created_at'] 
     
