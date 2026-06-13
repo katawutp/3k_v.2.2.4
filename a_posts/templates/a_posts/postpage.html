@@ -1,15 +1,15 @@
 {% extends "layouts/blank-layout.html" %}
 {% load static %}
 
-{% block meta_tags %}
-<meta property="og:title" content="Post by {{ post.author.username }}">
-<meta property="og:description" content="Check out this post!">
-<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% if post.image %}{{ post.image.url }}{% endif %}">
+{% block meta_tag %}
+<meta property="og:title" content="โพสต์โดยผู้ใช้งานแอ๊พก๊อกๆๆ : {{ post.author.username }}">
+<meta prpperty="og:desctription" content="Check out this posts!">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}">
 <meta property="og:type" content="article">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Post by {{ post.author.username }}">
-<meta name="twitter:description" content="Check out this post!">
-<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% if post.image %}{{ post.image.url }}{% endif %}">
+<meta name="twitter:title" content="โพสต์โดยผู้ใช้งานแอ๊พก๊อกๆๆ : {{ post.author.username }}">
+<meta name="twitter:desctription" content="Check out post!">
+<meta name="image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}">
 {% endblock %}
 
 {% block content %}

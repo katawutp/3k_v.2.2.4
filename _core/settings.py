@@ -23,9 +23,13 @@ SECRET_KEY = env('SECRET_KEY', default="secret-key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ENVIRONMENT == 'development'
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
-CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=["http://localhost", "http://127.0.0.1"])
+# ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
+# Hardcode for production
+ALLOWED_HOSTS = ['v222.3kok.app', '.3kok.app', 'localhost', '127.0.0.1']
 
+# Also hardcode CSRF_TRUSTED_ORIGINS
+# CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=["http://localhost", "http://127.0.0.1"])
+CSRF_TRUSTED_ORIGINS = ['https://v222.3kok.app', 'https://.3kok.app', 'http://localhost', 'http://127.0.0.1']
 
 # Application definition
 
@@ -183,16 +187,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / "static" ]
 STATIC_ROOT = BASE_DIR / 'staticfiles' 
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'  # Add leading slash
 
-if ENVIRONMENT == "development":
-    MEDIA_ROOT = BASE_DIR / "media"
-else:
-    MEDIA_ROOT = "/app/media"
+# For both development and production, use BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # if ENVIRONMENT == 'production' or POSTGRES_LOCALLY:
 #     STORAGES = {
@@ -233,3 +236,20 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
 SOCIALACCOUNT_ADAPTER = "a_users.adapters.socialSignupAdapter"
+
+# Add at the very end of settings.py
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
