@@ -20,7 +20,7 @@
                     <h1>Select image or video to upload</h1>
                     <div class="text-neutral-500 mb-3">Or drag and drop it here</div>
                     <button type="button" @click="$refs.inputFileSelected.click()" class="bg-rose-500 hover:bg-rose-600 text-white rounded-md px-7 py-2 font-medium" :class="{ 'opacity-0' : isDragging }">
-                        Select Image or Video
+                        เลือกภาพ/วิดีโอคลิป
                     </button>
                     <input name="file" required class="hidden" type="file" accept="image/*,video/*" x-ref="inputFileSelected" @change="fileSelected" />
                 </div>
@@ -30,12 +30,12 @@
                     <div class="flex items-center order-2 lg:order-1">
                         <div class="flex flex-col gap-4 w-full">
                             <div>
-                                <label class="block font-bold text-neutral-600">Caption</label>
-                                <textarea name="body" type="text" maxlength="80" x-model="caption" placeholder="Add a caption here..." class="w-full min-h-36 py-3 px-4 bg-neutral-100 dark:bg-neutral-900 rounded-lg outline-none resize-none"></textarea>
+                                <label class="block font-bold text-neutral-600">แค๊ปชั่น</label>
+                                <textarea name="body" type="text" maxlength="80" x-model="caption" placeholder="เพิ่มแค๊ปชั่น..." class="w-full min-h-36 py-3 px-4 bg-neutral-100 dark:bg-neutral-900 rounded-lg outline-none resize-none"></textarea>
                             </div>
                             <div>
-                                <label class="block font-bold text-neutral-600">Hashtags</label>
-                                <input name="tags" type="text" maxlength="80" x-model="hashtag" placeholder="#tags - separated by a space" 
+                                <label class="block font-bold text-neutral-600">แฮ็ชแท็ก</label>
+                                <input name="tags" type="text" maxlength="80" x-model="hashtag" placeholder="#แท็ก - แยกด้วยการเว้นวรรค" 
                                     hx-get="{% url 'search_suggestions' %}"
                                     hx-trigger="input delay:300ms"
                                     hx-target="#hashtag_suggestions"
@@ -44,10 +44,10 @@
                             </div>
                             <div class="flex gap-3">
                                 <button type="submit" class="bg-rose-500 hover:bg-rose-600 text-white rounded-md px-7 py-2 font-medium">
-                                    Submit Post
+                                    ส่งโพสต์
                                 </button>
                                 <button @click="discardUpload" type="button" class="bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-800/80 text-neutral-500 rounded-md px-4 py-2 font-medium">
-                                    Discard
+                                    ข้ามไป
                                 </button>
                             </div>
                             <div id="hashtag_suggestions" class="relative"></div>
