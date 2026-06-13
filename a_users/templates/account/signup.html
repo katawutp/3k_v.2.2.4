@@ -13,7 +13,7 @@
             </div>
         {% endfor %}
     {% endif %}
-    <h1 class="text-center pb-4">Sign up</h1>
+    <h1 class="text-center pb-4">ลงทะเบียนใช้งาน</h1>
     <div class="mb-10">
         <form method="POST" action="{% url 'account_signup' %}?next={{ request.GET.next|urlencode }}" x-data="signupComponent()">
             {% csrf_token %} 
