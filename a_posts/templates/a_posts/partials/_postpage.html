@@ -4,9 +4,14 @@
         {% if post.video %}
             <video src="{{ post.video.url }}" class="object-contain w-full h-screen" controls autoplay muted loop playsinline></video>
         {% elif post.image %}
-            {# Safe approach for image #}
-            {% if post.image and post.image.url %}
-                <img src="{{ post.image.url }}" class="object-contain max-h-screen">
+            {% if post.image %}
+                {% with post.image.url as image_url %}
+                    {% if image_url %}
+                        <img src="{{ image_url }}" class="object-contain max-h-screen">
+                    {% else %}
+                        <img src="/static/default-image.jpg" class="object-contain max-h-screen">
+                    {% endif %}
+                {% endwith %}
             {% else %}
                 <img src="/static/default-image.jpg" class="object-contain max-h-screen">
             {% endif %}
