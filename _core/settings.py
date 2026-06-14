@@ -119,7 +119,7 @@ TEMPLATES = [
 ASGI_APPLICATION = '_core.asgi.application'
 
 
-if ENVIRONMENT == 'production':
+if ENVIRONMENT == 'production' and env.bool('USE_REDIS', default=False):
     CHANNEL_LAYERS = {
         'default': {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
