@@ -25,11 +25,14 @@ DEBUG = ENVIRONMENT == 'development'
 
 # ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
 # Hardcode for production
-ALLOWED_HOSTS = ['v222.3kok.app', '.3kok.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
 
 # Also hardcode CSRF_TRUSTED_ORIGINS
 # CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=["http://localhost", "http://127.0.0.1"])
-CSRF_TRUSTED_ORIGINS = ['https://v222.3kok.app', 'https://.3kok.app', 'http://localhost', 'http://127.0.0.1']
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[
+    "http://localhost", 
+    "http://127.0.0.1"
+])
 
 # Application definition
 
