@@ -227,9 +227,9 @@ else:
     EMAIL_HOST = 'smtp.sendgrid.net'
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
-    EMAIL_HOST_USER = 'apikey'  # Literally the word 'apikey'
+    EMAIL_HOST_USER = 'apikey'
     EMAIL_HOST_PASSWORD = env('SENDGRID_API_KEY', default="")
-    DEFAULT_FROM_EMAIL = "noreply@sendgrid.net"  # Use SendGrid's default
+    DEFAULT_FROM_EMAIL = "noreply@mail.3kok.app"  # Update this to your verified sender
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/' 
