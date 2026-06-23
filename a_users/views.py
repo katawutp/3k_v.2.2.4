@@ -90,8 +90,8 @@ def verification_code(request):
     
     code = str(random.randint(100000, 999999))
     cache.set(f"verification_code_{email}", code, timeout=300)
-    subject = "Your KokKokKok Verification Code"
-    message = f"Use this code to sign up: {code}. It expires in 5 minutes."
+    subject = "KokKokKok รหัสยืนยัน"
+    message = f"รหัสลงทะเบียนผู้ใช้งาน: {code}. จะหมดอายุใน 5 นาที."
     sender = settings.DEFAULT_FROM_EMAIL  # Changed from hardcoded value
     recipients = [email]
     

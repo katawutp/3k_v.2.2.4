@@ -222,14 +222,13 @@ AUTH_USER_MODEL = 'a_users.CustomUser'
 if ENVIRONMENT == 'development':
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
-    # SendGrid SMTP Configuration
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = 'smtp.sendgrid.net'
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
     EMAIL_HOST_USER = 'apikey'
     EMAIL_HOST_PASSWORD = env('SENDGRID_API_KEY', default="")
-    DEFAULT_FROM_EMAIL = "easterncyber.com@gmail.com"  # Your verified sender
+    DEFAULT_FROM_EMAIL = "no-reply@3kok.app"  # Your custom domain
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/' 
