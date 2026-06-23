@@ -217,16 +217,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'a_users.CustomUser'
 
+# Email Configuration
+# Production uses SendGrid, development uses console output
 if ENVIRONMENT == 'development':
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_HOST_USER = env('EMAIL_ADDRESS', default="email@example.com")
-    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default="password")
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+    # SendGrid configuration for production
+    EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+    SENDGRID_API_KEY = env('SENDGRID_API_KEY', default="")
+    SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+    DEFAULT_FROM_EMAIL = "noreply@mail.3kok.app"
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/' 

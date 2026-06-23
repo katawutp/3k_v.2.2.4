@@ -32,3 +32,7 @@ console_command = '/code/manage.py shell'
 [[statics]]
   guest_path = '/code/static'
   url_prefix = '/static/'
+
+[[mounts]]
+  source = "media_volume"
+  destination = "/app/media"
