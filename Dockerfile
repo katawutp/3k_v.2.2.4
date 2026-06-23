@@ -16,6 +16,10 @@ RUN apt-get update && apt-get install -y \
 COPY pyproject.toml uv.lock ./
 RUN pip install --upgrade pip && pip install uv
 RUN uv sync --no-dev
+
+# Force install sendgrid-django (uv sync may skip it)
+RUN pip install sendgrid-django==4.2.0
+
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Node / Tailwind
