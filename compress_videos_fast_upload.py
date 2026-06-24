@@ -6,13 +6,75 @@ import json
 import shutil
 from datetime import datetime
 
+# Set FFmpeg paths (try common locations)
+def get_ffmpeg_paths():
+    """Find ffmpeg and ffprobe executables"""
+    # Try common paths
+    possible_paths = [
+        '/usr/bin/ffmpeg',
+        '/usr/local/bin/ffmpeg',
+        '/bin/ffmpeg',
+        'ffmpeg'  # Try system PATH
+    ]
+    
+    possible_probe_paths = [
+        '/usr/bin/ffprobe',
+        '/usr/local/bin/ffprobe',
+        '/bin/ffprobe',
+        'ffprobe'  # Try system PATH
+    ]
+    
+    ffmpeg_path = None
+    ffprobe_path = None
+    
+    for path in possible_paths:
+        try:
+            result = subprocess.run([path, '-version'], capture_output=True, timeout=2)
+            if result.returncode == 0:
+                ffmpeg_path = path
+                break
+        except:
+            continue
+    
+    for path in possible_probe_paths:
+        try:
+            result = subprocess.run([path, '-version'], capture_output=True, timeout=2)
+            if result.returncode == 0:
+                ffprobe_path = path
+                break
+        except:
+            continue
+    
+    return ffmpeg_path, ffprobe_path
+
+# Get FFmpeg paths
+FFMPEG_PATH, FFPROBE_PATH = get_ffmpeg_paths()
+
+if not FFMPEG_PATH or not FFPROBE_PATH:
+    print("⚠️  FFmpeg not found! Please install FFmpeg:")
+    print("   apt-get update && apt-get install -y ffmpeg")
+    print("\nTrying to continue with system PATH...")
+    FFMPEG_PATH = 'ffmpeg'
+    FFPROBE_PATH = 'ffprobe'
+
+print(f"Using FFmpeg: {FFMPEG_PATH}")
+print(f"Using FFprobe: {FFPROBE_PATH}")
+print("")
+
 def get_video_info(file_path):
     """Get video file information using ffprobe"""
     try:
-        cmd = ['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_streams', file_path]
+        cmd = [
+            FFPROBE_PATH,
+            '-v', 'quiet',
+            '-print_format', 'json',
+            '-show_streams',
+            file_path
+        ]
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode == 0:
-            return json.loads(result.stdout)
+            data = json.loads(result.stdout)
+            return data
         return None
     except Exception as e:
         print(f"Error getting video info: {e}")
@@ -21,7 +83,13 @@ def get_video_info(file_path):
 def get_video_duration(file_path):
     """Get video duration in seconds"""
     try:
-        cmd = ['ffprobe', '-v', 'quiet', '-show_format', '-print_format', 'json', file_path]
+        cmd = [
+            FFPROBE_PATH,
+            '-v', 'quiet',
+            '-show_format',
+            '-print_format', 'json',
+            file_path
+        ]
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode == 0:
             data = json.loads(result.stdout)
@@ -58,16 +126,16 @@ def compress_video_fast_upload(input_path, output_path, target_mb=1.5, max_mb=2)
             print(f"✓ {os.path.basename(input_path)}: Already {original_size_mb:.1f}MB (≤{max_mb}MB)")
             return True
         
+        # Get video duration
+        duration = get_video_duration(input_path)
+        if not duration:
+            print(f"⚠ Could not get duration for {os.path.basename(input_path)}, using default settings")
+            duration = 30  # Assume 30 seconds as fallback
+        
         # Check orientation
         is_vertical = is_vertical_video(input_path)
         orientation = "Vertical" if is_vertical else "Horizontal"
         print(f"  Orientation: {orientation}")
-        
-        # Get video duration
-        duration = get_video_duration(input_path)
-        if not duration:
-            print(f"⚠ Could not get duration for {os.path.basename(input_path)}")
-            return False
         
         # Calculate target bitrate for 1.5MB (with 10% margin)
         target_size_bits = (target_mb * 0.9) * 1024 * 1024 * 8
@@ -123,7 +191,7 @@ def compress_video_fast_upload(input_path, output_path, target_mb=1.5, max_mb=2)
             {
                 'name': 'Fast CRF',
                 'cmd': [
-                    'ffmpeg',
+                    FFMPEG_PATH,
                     '-i', input_path,
                     '-c:v', 'libx264',
                     '-crf', '28',
@@ -145,7 +213,7 @@ def compress_video_fast_upload(input_path, output_path, target_mb=1.5, max_mb=2)
             {
                 'name': 'Target Bitrate',
                 'cmd': [
-                    'ffmpeg',
+                    FFMPEG_PATH,
                     '-i', input_path,
                     '-c:v', 'libx264',
                     '-b:v', f'{target_bitrate}',
@@ -169,7 +237,7 @@ def compress_video_fast_upload(input_path, output_path, target_mb=1.5, max_mb=2)
             {
                 'name': 'Aggressive',
                 'cmd': [
-                    'ffmpeg',
+                    FFMPEG_PATH,
                     '-i', input_path,
                     '-c:v', 'libx264',
                     '-crf', '32',
@@ -233,7 +301,7 @@ def compress_video_fast_upload(input_path, output_path, target_mb=1.5, max_mb=2)
         print(f"  Trying ultimate fallback...")
         
         fallback_cmd = [
-            'ffmpeg',
+            FFMPEG_PATH,
             '-i', input_path,
             '-c:v', 'libx264',
             '-crf', '35',
@@ -373,7 +441,6 @@ def process_videos_fast(directory, target_mb=1.5, max_mb=2):
         print(f"📉 Total reduction: {reduction:.1f}%")
         print(f"💾 Space saved: {total_original_mb - total_compressed_mb:.1f}MB ({(total_original_mb - total_compressed_mb)/1024:.2f}GB)")
         print(f"⏱️  Total time: {total_time:.1f}s ({total_time/60:.1f} minutes)")
-        print(f"⚡ Average speed: {(total_original_mb - total_compressed_mb)/total_time:.1f} MB/s")
         print("="*60)
 
 if __name__ == "__main__":
