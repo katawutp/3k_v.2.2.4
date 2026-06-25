@@ -1,0 +1,14 @@
+<article class="flex flex-col items-center gap-4 bg-neutral-100/80 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700/70 p-4 rounded-xl">
+    <a href="{% url 'profile' this_user.username  %}" class="size-22 rounded-full overflow-hidden">
+        <img src="{{ this_user.avatar }}" class="w-full h-full object-cover">
+    </a>
+    <p class="font-medium">
+        {{ this_user.username }}
+    </p>
+    <p class="text-sm text-center truncate w-full -mt-4">
+        {{ this_user.name }}
+    </p>
+    {% if this_user != user %}
+    {% include "a_network/partials/_follow_rounded.html" %}
+    {% endif %}
+</article>

@@ -1,0 +1,40 @@
+<article>
+    <button @click="modalPage = true; returnUrl = window.location.pathname;" 
+            hx-get="{% url 'post_page' post.uuid %}"
+            hx-target="#modalpage-content"
+            hx-swap="innerHTML"
+            hx-push-url="true">
+        <div class="relative bg-black w-full aspect-[3/4] rounded-lg overflow-hidden">
+            {% if post.video %}
+                <video class="w-full h-full object-cover" src="{{ post.video.url }}" autoplay muted loop playsinline></video>
+            {% elif post.image %}    
+                <img class="w-full h-full object-cover" src="{{ post.image.url }}">
+            {% endif %}
+            <article-info class="absolute bottom-0 left-0 right-0">
+                <div class="h-30 w-full bg-gradient-to-t from-black to-transparent opacity-30 rounded-b-lg"></div>
+                <div class="absolute bottom-0 p-3 flex items-center gap-1 z-10">
+                    <div class="size-5 fill-white">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2.5L14.5 8.5L21 9.2L16 14L17.5 20.5L12 17L6.5 20.5L8 14L3 9.2L9.5 8.5L12 2.5Z"/>
+                        </svg>
+                    </div>
+                    <span id="post_like_{{ post.uuid }}" class="text-white">
+                        {{ post.likes.count }}
+                    </span>
+                </div>
+            </article-info>
+        </div>
+    </button>
+    {% if post.author %}
+    <a href="{% url 'profile' post.author.username %}" class="block mt-1 mb-2">
+        <div class="flex items-center gap-1">
+            <div class="rounded-full size-6 flex items-center justify-center overflow-hidden">
+                <img src="{{ post.author.avatar }}" class="w-full h-full object-cover">
+            </div>
+            <span class="hover:underline">
+                {{ post.author }}
+            </span>
+        </div>
+    </a>
+    {% endif %}
+</article>

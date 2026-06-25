@@ -1,0 +1,1 @@
+sendgrid-django==4.2.0 # Replace the line
