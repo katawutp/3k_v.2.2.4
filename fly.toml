@@ -36,3 +36,7 @@ console_command = '/code/manage.py shell'
 [[mounts]]
   source = "media_volume"
   destination = "/app/media"
+
+[machine]
+  cpus = 2
+  memory = "2gb"
